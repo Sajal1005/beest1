@@ -19,6 +19,7 @@ export const create  = async(req,res)=>{
 export const getAll = async(req,res)=>{
     try{
 
+        // Advance module implemented
         // Example: localhost:8000/api/books?title=test3&author=test2
         const titlef = req.query.title;
         const authorf = req.query.author;
@@ -26,9 +27,13 @@ export const getAll = async(req,res)=>{
         // console.log(titlef +" "+authorf);
 
         let data;
-        if (titlef || authorf) {
+        if (titlef && authorf) {
             data = await Item.find({ title: titlef , author:authorf });
-        } else {
+        } else if(titlef){
+            data = await Item.find({ title: titlef });
+        }else if(authorf){
+            data = await Item.find({ author: authorf });
+        }else {
             data = await Item.find();
         }
 
